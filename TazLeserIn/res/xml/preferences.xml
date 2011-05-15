@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+
+<PreferenceCategory android:selectable="true" android:title="@string/txt_preference_heading">
+<EditTextPreference android:title="@string/txt_AboId" android:key="@string/pref_id_name"></EditTextPreference>
+<EditTextPreference android:title="@string/passwd" android:singleLine="true" android:password="true" android:key="@string/pref_id_passwd"></EditTextPreference>
+</PreferenceCategory>
+<PreferenceCategory android:title="@string/txt_layout"><ListPreference android:entries="@array/textSizeValues" android:entryValues="@array/textSizeValues" android:title="@string/txtSize" android:defaultValue="@string/txt_Size_Default" android:key="@string/pref_id_lst_TextSize"></ListPreference>
+</PreferenceCategory>
+</PreferenceScreen>

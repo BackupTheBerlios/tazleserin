@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/edit_load" android:title="@string/load" android:icon="@android:drawable/ic_menu_upload">
+</item>
+
+
+<item android:id="@+id/edit_directory" android:icon="@android:drawable/ic_menu_agenda" android:title="@string/directory"></item>
+<item android:title="@string/menu_read" android:id="@+id/edit_read" android:icon="@android:drawable/ic_menu_upload_you_tube"></item>
+<item android:title="@string/preferences" android:id="@+id/edit_preferences" android:icon="@android:drawable/ic_menu_preferences"></item>
+<item android:title="@string/pref_about" android:id="@+id/edit_about" android:icon="@android:drawable/ic_menu_info_details"></item>
+<item android:id="@+id/edit_finish" android:title="@string/pref_finish" android:icon="@android:drawable/ic_menu_close_clear_cancel"></item>
+</menu>

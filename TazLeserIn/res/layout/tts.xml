@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+	<ScrollView
+			android:id="@+id/tts_scrollView"
+ 	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:layout_above="@+id/tts_buttonLayout" 
+	    android:layout_alignParentTop="true"
+			android:isScrollContainer="true">
+		  <TableLayout
+		  	android:id="@+id/tts_tableLayout"
+			  android:layout_width="fill_parent"
+			  android:layout_height="wrap_content">
+		  </TableLayout>
+  </ScrollView>
+	<LinearLayout
+		android:id="@+id/tts_buttonLayout"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true">    
+		<ImageButton android:id="@+id/tts_stopButton"
+	     android:layout_height="wrap_content"
+	     android:layout_width="fill_parent"
+	     android:layout_weight="1"
+	     android:src="@android:drawable/ic_lock_silent_mode"
+	     android:layout_alignParentLeft="true"
+	     android:onClick="previous" />
+		<ImageButton android:id="@+id/tts_skipButton"
+	     android:layout_height="wrap_content"
+	     android:layout_width="fill_parent"
+	     android:layout_weight="1"
+	     android:src="@android:drawable/ic_media_next"
+	     android:layout_alignParentRight="true"
+ 	     android:onClick="next" />
+	</LinearLayout>
+</RelativeLayout>

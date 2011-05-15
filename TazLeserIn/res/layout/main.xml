@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+	<ScrollView
+			android:id="@+id/textScrollView"
+ 	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:layout_above="@+id/ButtonLayout" 
+	    android:layout_alignParentTop="true"
+			android:isScrollContainer="true">
+    			<TextView  
+    			  android:id="@+id/articleTextView"
+				    android:layout_width="fill_parent" 
+				    android:layout_height="wrap_content" 
+				    android:text="@string/hello"
+			    />
+  </ScrollView>
+	<LinearLayout
+			android:id="@+id/ButtonLayout"
+	    android:orientation="horizontal"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true">    
+			<Button android:id="@+id/prevButton"
+		     android:layout_height="wrap_content"
+		     android:layout_width="fill_parent"
+		     android:layout_weight="1"
+		     android:text="@string/prev"
+		     android:layout_alignParentLeft="true"
+		     android:onClick="previous" />
+			<Button android:id="@+id/nextButton"
+		     android:layout_height="wrap_content"
+		     android:layout_width="fill_parent"
+		     android:layout_weight="1"
+		     android:text="@string/next"
+		     android:layout_alignParentRight="true"
+  	     android:onClick="next" />
+	</LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_about">Über</string>
+    <string name="menu_read">Vorlesen</string>
+    <string name="directory">Inhalt</string>
+    <string name="load">Laden</string>
+    <string name="pref_id_passwd">passwd</string>
+    <string name="pref_id_name">name</string>
+    <string name="pref_id_lst_TextSize">lst_TextSize</string>
+    <string name="txt_Size_Default">0</string>
+    <string name="txtSize">Textgröße</string>
+    <string name="txt_layout">Aussehen</string>
+    <string name="passwd">Passwort</string>
+    <string name="preferences">Einstellungen</string>
+    <string name="txt_preference_heading">Einstellungen</string>
+    <string name="txt_AboId">Abo ID</string>
+    <string name="hello">Taz LeserIn</string>
+    <string name="app_name">Taz LeserIn</string>
+<string name="prev">vorherige</string>
+<string name="next">nächste</string>
+<string name="menu">Load</string>
+<string name="pref_id_CurrentArticle">CurrentArticle</string>
+<string name="about">TazLeserIn 2.4</string>
+<string name="pref_finish">Ende</string>
+</resources>
