@@ -74,7 +74,7 @@ extends Activity
 	
 	static final String currentArticleKey = "currentArticle";
 
-	boolean paused = false;
+	boolean destroyed = false;
 	
 	boolean ttsIsAvailable = false;
 	
@@ -130,22 +130,6 @@ extends Activity
 		editor.putInt(getResources().getString(R.string.pref_id_CurrentArticle), currentArticle);
 		editor.commit();		
 	}
-	
-	private View.OnLongClickListener speekListener = new View.OnLongClickListener()
-	{
-		/* (non-Javadoc)
-		 * @see android.view.View.OnLongClickListener#onLongClick(android.view.View)
-		 */
-		@Override
-		public boolean onLongClick(View v)
-		{
-			if (ttsIsAvailable)
-			{
-				callTtsActivity();	
-			}
-			return true;
-		}
-	};
 
 	public void setContent(Article article)
 	{
@@ -257,7 +241,6 @@ extends Activity
 
 		scrollView = (ScrollView) findViewById(R.id.textScrollView);
 		textView = (TextView) findViewById(R.id.articleTextView);
-		textView.setOnLongClickListener(speekListener);
 		nextButton = (Button) findViewById(R.id.nextButton);
 		nextButton.setOnClickListener(nextListener);
 		prevButton = (Button) findViewById(R.id.prevButton);
@@ -265,41 +248,30 @@ extends Activity
 	
 		final Intent tazServiceIntent = new Intent(this,TazService.class);
 		startService(tazServiceIntent);
+		final Intent tazServiceBindIntent = new Intent(this,TazService.class);
+		bindService(tazServiceBindIntent, serviceConnection, 0);		
 		
 		Intent checkIntent = new Intent();
 		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 		startActivityForResult(checkIntent, CHECK_TTS);
+		
+		destroyed = false;
 	}
 
-	
-	
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onResume()
-	 */
-	@Override
-	protected void onResume()
-	{
-		super.onResume();
-		paused = false;
-		final Intent tazServiceIntent = new Intent(this,TazService.class);
-		bindService(tazServiceIntent, serviceConnection, 0);
-	}
-	
-	
 
 	/* (non-Javadoc)
-	 * @see android.app.Activity#onPause()
+	 * @see android.app.Activity#onDestroy()
 	 */
 	@Override
-	protected void onPause()
+	protected void onDestroy()
 	{
-		paused = true;
+		super.onDestroy();
+		destroyed = true;
 		if (null != serviceBinder)
 		{
 			unbindService(serviceConnection);
 			serviceBinder = null;
 		}
-		super.onPause();
 	}
 
 	/* (non-Javadoc)
@@ -365,13 +337,9 @@ extends Activity
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder binder)
 		{
-			serviceBinder = (TazServiceBinder)binder;
-			if (paused)
+			if (!destroyed)
 			{
-				unbindService(serviceConnection);
-			}
-			else
-			{
+				serviceBinder = (TazServiceBinder)binder;
 				serviceBinder.addCallBackHandler(messageHandler);
 				
 	    	if (currentArticle < serviceBinder.getNumberOfArticles())

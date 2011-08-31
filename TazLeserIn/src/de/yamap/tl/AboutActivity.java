@@ -38,7 +38,7 @@ public class AboutActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about);
 		TextView textView = (TextView)findViewById(R.id.aboutTextView);
-		textView.setText(Html.fromHtml("<h3>TazLeserIn 2.4.003</h3>" +
+		textView.setText(Html.fromHtml("<h3>TazLeserIn 2.4.004</h3>" +
 				"TazLeserIn is free software; you can redistribute it and/or modify " +
         "it under the terms of the GNU General Public License as published by " +
         "the Free Software Foundation; either version 2 of the License, or " +
