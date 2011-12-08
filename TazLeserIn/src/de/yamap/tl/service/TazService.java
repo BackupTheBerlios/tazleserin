@@ -114,7 +114,8 @@ public class TazService
 			    Calendar calendar = Calendar.getInstance();
 			    calendar.setTime(date);
 			    String dateString = (new SimpleDateFormat("yyyy_MM_dd").format(date));
-			    NetConnection.Result result = NetConnection.getConnection("http://www.taz.de/taz/abo/get.php?f=" + dateString +".txt", userId, passwd); 
+			    NetConnection.Result result = NetConnection.getConnection("http://dl.taz.de/taz/abo/get.php?f=" + dateString +".txt", userId, passwd);
+			    																													 
 			  	InputStream is = result.getInputStream();  
 			  	int get = 1;
 			  	byte b[] = new byte[1000];

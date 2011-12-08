@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="de.yamap.tl"
       android:versionCode="1"
-      android:versionName="2.4.004"
+      android:versionName="2.4.005"
       android:minSdkVersion="4"
       android:installLocation="auto">
     <application android:icon="@drawable/icon" android:label="@string/app_name" android:debuggable="true">
