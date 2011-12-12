@@ -6,6 +6,7 @@
     <string name="load">Laden</string>
     <string name="pref_id_passwd">passwd</string>
     <string name="pref_id_name">name</string>
+    <string name="pref_id_tom">Touché</string>
     <string name="pref_id_lst_TextSize">lst_TextSize</string>
     <string name="txt_Size_Default">0</string>
     <string name="txtSize">Textgröße</string>

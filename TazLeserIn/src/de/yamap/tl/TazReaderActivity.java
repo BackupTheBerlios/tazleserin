@@ -123,6 +123,12 @@ extends Activity
 		startActivityForResult(dirIntent, TTS_SPEECH);
 	}
 	
+	private void callTomActivity()
+	{
+		Intent dirIntent = new Intent(this, CaricActivity.class);
+		startActivity(dirIntent);
+	}	
+	
 	private void storeCurrentActicle()
 	{
 		SharedPreferences preferences = TazSettings.getTazSettings(this);
@@ -464,6 +470,9 @@ extends Activity
 			case R.id.edit_about:
 				Intent aboutIntent = new Intent(this, AboutActivity.class);
 				startActivity(aboutIntent);
+				break;
+			case R.id.edit_tom:
+				callTomActivity();
 				break;
 			case R.id.edit_finish:
 				if (null != serviceBinder)

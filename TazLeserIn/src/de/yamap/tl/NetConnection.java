@@ -144,6 +144,7 @@ public class NetConnection
 						ByteArrayOutputStream ostream = new ByteArrayOutputStream();
 						response.getEntity().writeTo(ostream);
 						retIs = new ByteArrayInputStream(ostream.toByteArray());
+						ostream.close();						
 						break;
 					case HttpStatus.SC_NOT_FOUND:
 					case HttpStatus.SC_UNAUTHORIZED:
@@ -161,7 +162,7 @@ public class NetConnection
 		return new Result(retIs, retExp);
 	}
 
-	static Result getConnection(String uri)
+	static public Result getConnection(String uri)
 	{
 		InputStream retIs = null;
 		Exception retExp = null;
@@ -181,6 +182,7 @@ public class NetConnection
 				ByteArrayOutputStream ostream = new ByteArrayOutputStream();
 				response.getEntity().writeTo(ostream);
 				retIs = new ByteArrayInputStream(ostream.toByteArray());
+				ostream.close();				
 			}
 		}
 		catch (Exception exp)
@@ -189,4 +191,35 @@ public class NetConnection
 		}
 		return new Result(retIs, retExp);
 	}
+	
+	static public Result getConnection(String uri, String referer)
+	{
+		InputStream retIs = null;
+		Exception retExp = null;
+		
+		int responseStatus = HttpStatus.SC_OK;
+		HttpResponse response = null;
+		HttpClient client = new DefaultHttpClient();
+		HttpGet request = null;
+		try
+		{
+			request = new HttpGet(new URI(uri));
+			request.setHeader("Referer", referer);
+			response = client.execute(request);	
+			responseStatus = response.getStatusLine().getStatusCode();
+			if ((null != response) &&
+					(responseStatus == HttpStatus.SC_OK))
+			{
+				ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+				response.getEntity().writeTo(ostream);
+				retIs = new ByteArrayInputStream(ostream.toByteArray());
+				ostream.close();
+			}
+		}
+		catch (Exception exp)
+		{
+			retExp = exp;
+		}
+		return new Result(retIs, retExp);
+	}	
 }

@@ -20,6 +20,7 @@
  */
 package de.yamap.tl.service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -37,9 +38,14 @@ import de.yamap.tl.NetConnection;
 import de.yamap.tl.TazSettings;
 import de.yamap.tl.reader.AsciiReader;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.IBinder;
+import android.view.Display;
+import android.view.WindowManager;
 public class TazService
 	extends Service
 {
@@ -47,6 +53,7 @@ public class TazService
 	protected AsciiReader reader = null;
 	protected String userId = "";
 	protected String passwd = "";
+	protected int preferedBitmapHeight = 200;
 	
 	@Override
 	public IBinder onBind(Intent arg0)
@@ -63,9 +70,16 @@ public class TazService
 		SharedPreferences preferences = TazSettings.getTazSettings(this);
 		final String userId = preferences.getString(getResources().getString(R.string.pref_id_name), "");
 		final String passwd = preferences.getString(getResources().getString(R.string.pref_id_passwd), "");
+		
+		WindowManager windowManager = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
+		Display defaultDisplay = windowManager.getDefaultDisplay();
+		preferedBitmapHeight = defaultDisplay.getHeight() - 10;
+		
 		setUserId(userId);
 		setPasswd(passwd);
 		buildReader(false);
+		
+		
 		super.onCreate();
 	}
 	
@@ -101,6 +115,16 @@ public class TazService
 		}
 		return new File("/mnt/sdcard/.tazLeserIn/taz.txt");
 	}
+
+	public static File getTempPngFile()
+	{
+		File dir = new File("/mnt/sdcard/.tazLeserIn/");
+		if (!dir.exists())
+		{
+			dir.mkdirs();
+		}
+		return new File("/mnt/sdcard/.tazLeserIn/tom.png");
+	}
 	
 	public void readTaz(final Date date)
 	{
@@ -110,6 +134,7 @@ public class TazService
 			{
 				public void run()
 				{
+					readTom(date);
 					int publishResult = TazServiceBinder.SERVICE_RESULT_TAZ_NOT_AVAILABLE;
 			    Calendar calendar = Calendar.getInstance();
 			    calendar.setTime(date);
@@ -165,6 +190,7 @@ public class TazService
 			      	}
 			      	os.close();
 			      	is.close();
+			      	readTom(date);
 			      	publishResult = TazServiceBinder.SERVICE_RESULT_NEW_TAZ_LOADED;
 			    	}
 			    	catch (Exception e)
@@ -178,6 +204,68 @@ public class TazService
 				}
 			}.start();
 		}
+	}
+	
+	public void readTom(Date date)
+	{
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(date);
+    String dateString = (new SimpleDateFormat("yyyy/MM/dd").format(date));
+		String referer = "http://taz.de/digitaz/.tom/tomdestages?day=" + dateString;
+		
+		Calendar reference = Calendar.getInstance();
+		reference.setTime(new Date(111, 11, 9));
+	
+		long diffMillis = calendar.getTimeInMillis() - reference.getTimeInMillis();
+		long pastDays = diffMillis /(24l*60l*60l*1000l);
+		String toucheUri = "http://taz.de/digitaz/.tom/gif.t,tom.d," + (1323385200l + pastDays * 86400l);
+		
+    NetConnection.Result result = NetConnection.getConnection(toucheUri, referer);
+		 
+  	InputStream is = result.getInputStream(); 
+  	ByteArrayOutputStream bos = new ByteArrayOutputStream();
+  	byte b[] = new byte[10000];
+  	if (is != null)
+  	{
+  		try
+  		{
+  			int got = 0;
+  			got = is.read(b);
+  			while (got > 0)
+  			{
+  				bos.write(b, 0, got);
+  				got = is.read(b);
+  			}
+  			byte imageB[] = bos.toByteArray();
+  			Bitmap image = BitmapFactory.decodeByteArray(imageB, 0, imageB.length);
+  			is.close();
+  			bos.close();
+  			if (null != image)
+  			{
+					int width = image.getWidth() ;
+					int height = image.getHeight();
+					int newWidth = (int)(((float)width * (float)preferedBitmapHeight) / (float)height);
+					Bitmap tempBitmap = Bitmap.createScaledBitmap(image, newWidth, preferedBitmapHeight, true);
+					if (tempBitmap.getHeight() >= 0)
+					{
+						image.recycle();
+						image = tempBitmap;
+					}
+					else
+					{
+						tempBitmap.recycle();
+					}
+					FileOutputStream fos = new FileOutputStream(getTempPngFile());
+					image.compress(Bitmap.CompressFormat.PNG, 95, fos);
+					fos.flush();
+					fos.close();
+					image.recycle();
+  			}
+  		}
+  		catch (Exception exp)
+  		{
+  		}
+  	}
 	}
 	
 	public void buildReader()

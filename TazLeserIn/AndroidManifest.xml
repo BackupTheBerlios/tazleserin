@@ -30,6 +30,10 @@
         					android:label="@string/preferences"
         					android:theme="@android:style/Theme.Light">
         </activity>
+        <activity android:name=".CaricActivity" 
+        					 android:label="@string/app_name"
+        					android:theme="@android:style/Theme.Light">
+        </activity>        
 				<service android:name=".service.TazService" />
 				<service android:name=".ttsService.TtsService" />
 </application>       
