@@ -88,7 +88,6 @@ public class TtsService
 	{
 		return binder;
 	}
-
 	
 	/* (non-Javadoc)
 	 * @see android.speech.tts.TextToSpeech.OnInitListener#onInit(int)
