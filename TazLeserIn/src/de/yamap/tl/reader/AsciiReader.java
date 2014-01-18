@@ -33,10 +33,10 @@ import java.util.List;
 public class AsciiReader
 {
 	static final public String devider = "************************************************************";
-	static final public String ausgabe = "Ausgabe:";
-	static final public String ressort = "Ressort:";
-	static final public String seite = "Seite:";
-	static final public String titel = "Titel:";
+	static final public String ausgabe =    "Ausgabe   :";
+	static final public String ressort =    "Ressort   :";
+	static final public String seite =      "Seite     :";
+	static final public String titel =      "Titel     :";
 	static final public String untertitel = "Untertitel:";
 
 	static int titleSize = 32;
@@ -57,8 +57,10 @@ public class AsciiReader
 		articles.clear();
 		try
 		{
+//			BufferedReader reader = new BufferedReader(new InputStreamReader(is,
+//					Charset.forName("ISO-8859-1")));
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is,
-					Charset.forName("ISO-8859-1")));
+					Charset.forName("UTF-8")));
 			readContent(reader);
 			Article nextArticle = readArticle(reader);
 			Hashtable<String, Page> pageTable = new Hashtable<String, Page>();
